@@ -4,7 +4,6 @@ import cors from "cors"
 import { mongoDBURL, PORT } from "./config.js";
 import bookRouter from "./routes/bookRoutes.js";
 
-
 const app = express();
 
 app.use(express.json())

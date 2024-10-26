@@ -1,5 +1,6 @@
-export const PORT = 5555;
+import { configDotenv } from "dotenv";
 
-// LUbomdnABd7GfbWS
+configDotenv();
 
-export const mongoDBURL = 'mongodb+srv://naveendeva909:naveendeva909@cluster0.2reil.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+export const PORT = process.env.PORT;
+export const mongoDBURL = process.env.MONGODB_URL;
