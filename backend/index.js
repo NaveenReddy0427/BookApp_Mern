@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 import cors from "cors"
 import { mongoDBURL, PORT } from "./config.js";
 import bookRouter from "./routes/bookRoutes.js";
+import path from "path"
+import { fileURLToPath } from 'url';
 
 const app = express();
 
@@ -14,12 +16,24 @@ app.use(cors())
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //     allowedHeaders: ['Content-Type', 'Authorization'],
 // }))
-app.get('/', (req, res)=>{
-    // console.log(req)
-    return res.status(234).send('Welcome to the MERN stack')
-})
+
+// app.get('/', (req, res)=>{
+//     return res.status(234).send('Welcome to the MERN stack')
+// })
 
 app.use('/books', bookRouter)
+
+const dirname1 = path.dirname(fileURLToPath(import.meta.url));
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(dirname1, '../frontend/dist')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(dirname1, '../frontend', 'dist', 'index.html'));
+    });
+}else{
+    app.get('/', (req, res)=>{
+        return res.status(234).send('Welcome to the MERN stack')
+    })
+}
 
 
 mongoose
