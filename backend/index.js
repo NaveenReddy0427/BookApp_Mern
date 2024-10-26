@@ -23,16 +23,19 @@ app.use(cors())
 
 app.use('/books', bookRouter)
 
-const dirname1 = path.dirname(fileURLToPath(import.meta.url));
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(dirname1, '../frontend/dist')));
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Serve the frontend files in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(dirname, '../frontend/dist')));
     app.get('*', (req, res) => {
-        res.sendFile(path.join(dirname1, '../frontend', 'dist', 'index.html'));
+        res.sendFile(path.join(dirname, '../frontend/dist', 'index.html'));
     });
-}else{
-    app.get('/', (req, res)=>{
-        return res.status(234).send('Welcome to the MERN stack')
-    })
+} else {
+    // Development route
+    app.get('/', (req, res) => {
+        res.send('Welcome to the MERN stack');
+    });
 }
 
 
